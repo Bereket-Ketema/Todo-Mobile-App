@@ -1,35 +1,35 @@
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import { Tabs } from 'expo-router';
 import React from 'react';
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  // const colorScheme = useColorScheme();
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+    <Tabs>
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: ({ color }) => <FontAwesome name="home" size={24} color="black" />,
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="card"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Card',
+          tabBarIcon: ({ color }) => <AntDesign name="credit-card" size={24} color="black" />,
         }}
       />
+      <Tabs.Screen
+        name="todo"
+        options={{
+        title: 'Todo',
+        tabBarIcon: ({ color }) => <AntDesign name="check-square" size={24} color="black" />,
+      }}
+    />
     </Tabs>
+
   );
 }
