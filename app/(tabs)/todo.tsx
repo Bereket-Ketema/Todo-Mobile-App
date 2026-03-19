@@ -1,10 +1,21 @@
 import { Text, View, StyleSheet, TextInput, Pressable, FlatList } from 'react-native'
 import React, { useState } from 'react'
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useRouter } from "expo-router";
 
 export default function Todo() {
   const [task, setTask] = useState("");
   const [data, setData] = useState<{id: string; task: string; completed: boolean}[]>([]);
+  const router = useRouter();
+  function goToDetails(item: any){
+    router.push({
+      pathname: "../details",
+      params: {
+        task: item.task,
+        completed: item.completed.toString()
+      }
+    })
+  }
   function handleAdd(){
     if (task.trim() === ""){
       alert("Empty task!");
@@ -38,7 +49,7 @@ export default function Todo() {
           placeholder = 'Enter a task'  
           onChangeText = {setTask}      
         />
-        <Pressable onPress={(handleAdd)} style={styles.button}>
+        <Pressable onPress={handleAdd} style={styles.button}>
           <Text style= {styles.buttonText} >Add</Text>
         </Pressable>
 
@@ -55,7 +66,11 @@ export default function Todo() {
               styles.item,
               item.completed && { backgroundColor: "#d3ffd3" }
             ]}>
-              <Pressable onPress={() => toggleComplete(item.id)}>
+            
+              <Pressable
+                style={{ flex: 1 }}
+                onPress={() => goToDetails(item)}
+              >
                 <Text style={[
                   styles.text,
                   item.completed && styles.completedText
@@ -63,12 +78,19 @@ export default function Todo() {
                   {item.task}
                 </Text>
               </Pressable>
-
-              <Pressable onPress={() => {
-                setData(data.filter(i => i.id !== item.id))
-              }}>
-                <AntDesign name="delete" size={24} color="red" />
-              </Pressable>
+            
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 15 }}>
+                <Pressable onPress={() => toggleComplete(item.id)}>
+                  <AntDesign name="check" size={24} color="green" />
+                </Pressable>
+              
+                <Pressable onPress={() => {
+                  setData(data.filter(i => i.id !== item.id))
+                }}>
+                  <AntDesign name="delete" size={24} color="red" />
+                </Pressable>
+              </View>
+            
             </View>
           )}
         />
