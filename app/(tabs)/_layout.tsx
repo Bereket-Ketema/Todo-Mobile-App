@@ -16,13 +16,6 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="card"
-        options={{
-          title: 'Card',
-          tabBarIcon: ({ color }) => <AntDesign name="credit-card" size={24} color="black" />,
-        }}
-      />
-      <Tabs.Screen
         name="todo"
         options={{
         title: 'Todo',
