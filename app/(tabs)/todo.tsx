@@ -1,18 +1,18 @@
 import { Text, View, StyleSheet, TextInput, Pressable, FlatList } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useRouter } from "expo-router";
+import { TaskContext } from "@/context/Taskcontext";
 
 export default function Todo() {
   const [task, setTask] = useState("");
-  const [data, setData] = useState<{id: string; task: string; completed: boolean}[]>([]);
+  const { data, setData } = useContext(TaskContext);
   const router = useRouter();
   function goToDetails(item: any){
     router.push({
-      pathname: "../details",
+      pathname: "../details/[id]",
       params: {
-        task: item.task,
-        completed: item.completed.toString()
+        id: item.id,
       }
     })
   }
@@ -34,7 +34,7 @@ export default function Todo() {
 
   function toggleComplete(id: string) {
     setData(
-      data.map(item =>
+      data.map((item: { id: string; completed: any; }) =>
         item.id === id
           ? { ...item, completed: !item.completed }
           : item
@@ -85,7 +85,7 @@ export default function Todo() {
                 </Pressable>
               
                 <Pressable onPress={() => {
-                  setData(data.filter(i => i.id !== item.id))
+                  setData(data.filter((i: { id: any; }) => i.id !== item.id))
                 }}>
                   <AntDesign name="delete" size={24} color="red" />
                 </Pressable>
